@@ -12,7 +12,7 @@ import { ListNotification } from '../../actions/notification';
 import { withRouter } from 'react-router-dom';
 
 // Constants
-import { listed_notification } from '../../constants/constants';
+import { listed_notification, past_session_notification } from '../../constants/constants';
 
 // Styles
 import '../../styles/notifications.scss';
@@ -28,7 +28,7 @@ function Notification(props) {
 
     useEffect(() => {
         dispatchNotification();
-    }, []);
+    });
 
     const dispatchNotification=()=> {
         dispatch(ListNotification(listed_notification));
@@ -66,7 +66,7 @@ function Notification(props) {
                                     <CardText>10 users booked</CardText>
                                 </div>
                             </div>
-                            <Button>{data.golive}</Button>
+                            {getCardsBtns(data.btns)}
                         </Card>
                     </div>
                 )
@@ -75,19 +75,47 @@ function Notification(props) {
         }
     }
 
+    const getCardsBtns=(items)=> {
+        let btns = items.map((data, index)=> {
+            return(
+                <span style={{textAlign: "center"}} key={index}>
+                    {
+                        data.flag ?
+                            <Button onClick={()=>btnFunct(data)}>
+                                {data.title}
+                            </Button>
+                            :
+                            ''
+                    }
+                </span>
+            )
+        });
+        return btns;
+    }
+
+    const btnFunct=(data)=> {
+        props.history.push(data.route);
+    }
+
     const getBtns =()=> {
         if(getNotification.hasOwnProperty('data')) {
             let btnList = getNotification.data.btns;
             let btns = btnList.map((data, index)=> {
                 return(
                     <div key={index} className="session-btns">
-                        <Button color="outline-secondary" className={data.sessionType ? "true-btn": "false-btn"} onClick={()=>routeTo(data, index)}>
+                        <Button color="outline-secondary" className={data.sessionType ? "true-btn": "false-btn"} onClick={()=>sessionType(data, index)}>
                             {data.title}
                         </Button>
                     </div>
                 )
             });
             return btns;
+        }
+    }
+
+    const sessionType=(data, index)=> {
+        if(index == 1) {
+            dispatch(ListNotification(past_session_notification));
         }
     }
 

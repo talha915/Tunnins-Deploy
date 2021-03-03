@@ -7,6 +7,7 @@ export const profile_face = 'profileFace';
 export const signup_bank = 'signupBank';
 export const connect_bank = 'connectBank';
 export const listed_notification = 'listedNotification';
+export const past_session_notification = 'pastSessionNotification';
 export const add_session = 'addNewSession';
 export const added_session = 'addedNewSession';
 export const add_session_modal = 'addedSession';
