@@ -254,7 +254,7 @@
             {
                 "name": "My Sessions",
                 "icon": "icon-frame-4 d-block",
-                "route": "/"
+                "route": "/notification"
             },
             {
                 "name": "My Earnings",
@@ -274,7 +274,7 @@
             {
                 "name": "Settings",
                 "icon": "icon-settings d-block",
-                "route": "/"
+                "route": "/settings-contact"
             }
         ],
         "btns": [
@@ -793,12 +793,12 @@
             {
                 "type": "date",
                 "placeholder": "From DD/MM/YYY",
-                "label":"From"
+                "label": "From"
             },
             {
                 "type": "date",
                 "placeholder": "To DD/MM/YYY",
-                "label":"To"
+                "label": "To"
             }
         ],
         "tableHeader": [
@@ -923,49 +923,56 @@
                     "title": "About",
                     "type": "textarea",
                     "size": "4",
+                    "paddingClass": "",
                     "placeholder": "If you’re offered a seat on a rocket ship, don’t ask what seat! Just get on board & move the sail towards the destination."
                 },
                 {
                     "title": "Category",
                     "type": "text",
                     "size": "2",
+                    "paddingClass": "",
                     "placeholder": "Zumba,Full Body"
                 },
                 {
                     "title": "Business Name",
                     "type": "text",
                     "size": "3",
+                    "paddingClass": "",
                     "placeholder": "Some private Ltd."
                 },
                 {
                     "title": "DOB",
                     "type": "text",
                     "size": "2",
+                    "paddingClass": "",
                     "placeholder": "June 27, 1991"
                 },
                 {
                     "title": "Location",
                     "type": "text",
                     "size": "3",
+                    "paddingClass": "",
                     "placeholder": "Eleven Junks, Street 11, USA"
                 },
                 {
                     "title": "Gender",
                     "type": "text",
                     "size": "2",
+                    "paddingClass": "",
                     "placeholder": "Male"
                 },
-               
                 {
                     "title": "Instagram Profile URL",
                     "type": "text",
                     "size": "3",
+                    "paddingClass": "",
                     "placeholder": "www.instagram.com/drabhinav"
                 },
                 {
                     "title": "Email Address",
                     "type": "mail",
                     "size": "3",
+                    "paddingClass": "",
                     "placeholder": "abcd@egf.com"
                 }
             ],
@@ -974,49 +981,49 @@
                     "title": "Name",
                     "type": "text",
                     "size": "4",
-                    "paddingClass":"pl-0",
+                    "paddingClass": "pl-0",
                     "placeholder": "Stephen Paul"
                 },
                 {
                     "title": "Email Address",
                     "type": "mail",
                     "size": "3",
-                    "paddingClass":"pl-0",
+                    "paddingClass": "pl-0",
                     "placeholder": "abcd@egf.com"
                 },
                 {
                     "title": "Category",
                     "type": "text",
                     "size": "2",
-                    "paddingClass":"pl-0",
+                    "paddingClass": "pl-0",
                     "placeholder": "Zumba,Full Body"
                 },
                 {
                     "title": "Instagram Profile URL",
                     "type": "text",
                     "size": "3",
-                    "paddingClass":"pl-0",
+                    "paddingClass": "pl-0",
                     "placeholder": "www.instagram.com/drabhinav"
                 },
                 {
                     "title": "User Name",
                     "type": "text",
                     "size": "4",
-                    "paddingClass":"",
+                    "paddingClass": "",
                     "placeholder": "@stephen97"
                 },
                 {
                     "title": "Gender",
                     "type": "text",
                     "size": "2",
-                    "paddingClass":"",
+                    "paddingClass": "",
                     "placeholder": "Male"
                 },
                 {
                     "title": "Location",
                     "type": "text",
                     "size": "3",
-                    "paddingClass":"",
+                    "paddingClass": "",
                     "placeholder": "Eleven Junks, Street 11, USA"
                 },
                 {
@@ -1029,18 +1036,174 @@
                     "title": "About",
                     "type": "textarea",
                     "size": "4",
-                    "paddingClass":"",
+                    "paddingClass": "",
                     "placeholder": "If you’re offered a seat on a rocket ship, don’t ask what seat! Just get on board & move the sail towards the destination."
                 },
-                
                 {
                     "title": "Business Name",
                     "type": "text",
                     "size": "3",
-                    "paddingClass":"",
+                    "paddingClass": "",
                     "placeholder": "Some private Ltd."
                 }
             ]
         }
-    } 
+    },
+    "settings": {
+        "sidebar": [
+            {
+                "title": "Contact Admin",
+                "route": "/settings-contact",
+                "iconClass": "icon-avatar"
+            },
+            {
+                "title": "Bank Details",
+                "route": "/settings-bank-details",
+                "iconClass": "icon-wallet-1"
+            },
+            {
+                "title": "Terms & Conditions",
+                "route": "/settings-terms-condition",
+                "iconClass": "icon-portable-document-format"
+            },
+            {
+                "title": "About Us",
+                "route": "/settings-about-us",
+                "iconClass": "icon-info"
+            },
+            {
+                "title": "Privacy Policy",
+                "route": "/settings-privacy-policy",
+                "iconClass": "icon-shield"
+            },
+            {
+                "title": "FAQ’s",
+                "route": "/settings-faqs",
+                "iconClass": "icon-communications"
+            }
+        ],
+        "contacts": {
+            "title": "Contact Admin",
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+            "btn": "Send"
+        },
+        "bankDetails": {
+            "title": "Bank Details",
+            "bankform": [
+                {
+                    "title": "Bank Name",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Address Line 1",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Account Holder Name",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Address Line 2",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Account Number",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "City",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Routing Number",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "State",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "SSN (Last Four Digits)",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Gender",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Postal Code",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Email",
+                    "size": "6",
+                    "type": "email"
+                },
+                {
+                    "title": "Country",
+                    "size": "6",
+                    "type": "text"
+                },
+                {
+                    "title": "Date Of Birth",
+                    "size": "6",
+                    "type": "date"
+                }
+            ]
+        },
+        "terms": {
+            "title": "Terms & Conditions",
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "descriptionFooter": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        },
+        "about": {
+            "title": "About Us",
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        },
+        "faqs": {
+            "title": "FAQ's",
+            "quesList": [
+                {
+                    "title": "Question 1",
+                    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+                    "flag": true
+                },
+                {
+                    "title": "Question 2",
+                    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+                    "flag": false
+                },
+                {
+                    "title": "Question 3",
+                    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+                    "flag": false
+                },
+                {
+                    "title": "Question 4",
+                    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+                    "flag": false
+                },
+                {
+                    "title": "Question 5",
+                    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+                    "flag": false
+                }
+            ]
+        }
+    }
 }

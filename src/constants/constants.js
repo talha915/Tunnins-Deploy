@@ -23,3 +23,12 @@ export const getEarningDetail = 'earningDetails';
 export const getPayouts = 'payouts';
 export const user_profile = 'userProfile';
 export const user_edit_profile = 'userEditProfile';
+export const setting_sidebar = 'SettingsSidebar';
+export const setting_contact = 'SettingsContact';
+export const setting_bank = 'SettingsBank';
+export const setting_terms = 'SettingsTerms';
+export const setting_about = 'SettingsAbout';
+export const setting_privacy = 'SettingsPrivacy';
+export const setting_faqs = 'SettingsFaqs';
+export const setting_update_faqs = 'SettingsUpdateFaqs';
+
