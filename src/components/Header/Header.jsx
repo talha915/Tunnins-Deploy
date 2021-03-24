@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Styles
 import '../../styles/ratings.scss';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 
 // Action
 import { fetchHeader } from '../../actions/header';
 
 // Constants
-import { getHeader } from '../../constants/constants';
+import { getHeader, trainer_user_type } from '../../constants/constants';
 
 // Router
 import { withRouter } from 'react-router-dom';
@@ -21,12 +21,25 @@ import dp from '../../images/dp.png';
 function Header(props) {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [userType, setUserType] = useState({});
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
     const dispatch = useDispatch();
 
+    const userInfo = useSelector(state => state.postFetch);
+
+    const dispatchCheckUser=()=> {
+        if(userInfo.hasOwnProperty('userLogged')) {
+            setUserType(userInfo.userLogged.userType);  
+        }
+        else {
+            setUserType(trainer_user_type);
+        }
+    }
+
     useEffect(()=> {
         dispatchHead();
+        dispatchCheckUser();
     },[]);
 
     const dispatchHead=()=> {
@@ -79,11 +92,13 @@ function Header(props) {
 
     return (
         <div className="profile-actions d-flex align-items-center justify-content-end">
+            {userType === trainer_user_type ?  
             <div className="user-notification-wrapper">
                 <span className="icon-Group-22380">
                    {getPaths()}
                 </span>
             </div>
+            : '' }  
             <Dropdown className="profile-dropdown" isOpen={dropdownOpen} size="sm" toggle={toggle}>
                     <DropdownToggle>
                         <div className="user-profile">
@@ -93,13 +108,21 @@ function Header(props) {
                             <span className="credentials">
                                 {getCredentials()}
                             </span>
-                            <i className="icon-chevron-down"></i>
+                            {userType === trainer_user_type ?               
+                            <i className="icon-chevron-down"></i> 
+                            : '' }
                         </div>
                     </DropdownToggle>
                     <DropdownMenu>
                         {getDropDownItems()}
                     </DropdownMenu>
             </Dropdown>
+            {userType === trainer_user_type ? ''
+                : 
+                <span className="name" style={{color: "#fff"}} >
+                    <i className="icon-logout name"></i>LogOut
+                </span>
+            }
         </div>
     )
 }

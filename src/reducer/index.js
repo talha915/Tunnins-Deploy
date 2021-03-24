@@ -7,6 +7,7 @@ import signup from './signup';
 import signedup from './signedup';
 import verify from './verify';
 import signupProfile from './signUpProfle';
+import signupCategories from './signupCategories';
 import profileForm from './profileForm';
 import profileFace from './profileFace';
 import signupBank from './signupBank';
@@ -25,6 +26,8 @@ import payouts from './payouts';
 import userProfile from './userProfile';
 import SettingsSidebar from './settingsSidebar';
 import settings from './settings';
+import uploadFile from './uploadFile';
+import postFetch from './postFetch';
 
 const rootReducer = combineReducers({
     localData,
@@ -34,6 +37,7 @@ const rootReducer = combineReducers({
     signedup,
     verify,
     signupProfile,
+    signupCategories,
     profileForm,
     profileFace,
     signupBank,
@@ -50,7 +54,9 @@ const rootReducer = combineReducers({
     payouts,
     userProfile,
     SettingsSidebar,
-    settings
+    settings,
+    uploadFile,
+    postFetch
 })
 
 export default rootReducer;

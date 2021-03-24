@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, Row, Col, Card, CardText, CardBody, CardLink,
-    CardTitle, CardSubtitle } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import {
+    Button, Row, Col, Card, CardText, CardTitle
+} from 'reactstrap';
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +13,7 @@ import { ListNotification } from '../../actions/notification';
 import { withRouter } from 'react-router-dom';
 
 // Constants
-import { listed_notification } from '../../constants/constants';
+import { listed_notification, trainer_user_type } from '../../constants/constants';
 
 // Styles
 import '../../styles/notifications.scss';
@@ -23,36 +24,39 @@ import Sidebar from '../Sidebar/Sidebar';
 
 function Notification(props) {
 
+    const [userType, setUserType] = useState('');
+
     const dispatch = useDispatch();
     const getNotification = useSelector(state => state.notification);
 
+    const userInfo = useSelector(state => state.postFetch);
+
+    const dispatchCheckUser=()=> {
+        if(userInfo.hasOwnProperty('userLogged')) {
+            setUserType(userInfo.userLogged.userType);  
+            dispatch(ListNotification(listed_notification, userInfo.userLogged.userType)); 
+        }
+        else {
+            setUserType(trainer_user_type);
+            dispatchNotification();
+        }
+    }
+
     useEffect(() => {
+        dispatchCheckUser();
         dispatchNotification();
-    }, []);
+    },[]);
 
-    const dispatchNotification=()=> {
-        dispatch(ListNotification(listed_notification));
+    const dispatchNotification = () => {
+        dispatch(ListNotification(listed_notification, userType));
     }
 
-    const getSidebar=()=> {
-        if(getNotification.hasOwnProperty('data')) {
-            let lists = getNotification.data.sideList;
-            let sidebar = lists.map((data, index)=> {
-                return(
-                    <li key={index} className="list">
-                        {data.name}
-                    </li>
-                )
-            })
-            return sidebar;
-        }       
-    }
-
-    const getCards=()=> {
-        if(getNotification.hasOwnProperty('data')) {
+    const getCards = () => {
+        if (getNotification.hasOwnProperty('data')) {
             let lists = getNotification.data.cards;
-            let cards = lists.map((data, index)=> {
-                return(
+            console.log("Cards: ", lists);
+            let cards = lists.map((data, index) => {
+                return (
                     <div key={index} className="session-cards">
                         <Card body className="card-style">
                             <div className="card-content">
@@ -61,12 +65,22 @@ function Notification(props) {
                                     <CardText>{data.date}</CardText>
                                     <CardText>{data.time}</CardText>
                                 </div>
-                                <div>
-                                    <CardText className="session-amount">$21</CardText>
-                                    <CardText>10 users booked</CardText>
-                                </div>
+                                {userType && userType === "user" ? 
+                                    <div>
+                                        <CardText>{data.status}</CardText>
+                                        <Button onClick={()=>{cardRouteUser(data, index)}}>{data.golive}</Button>
+                                    </div>
+                                :
+                                    <div>
+                                        <CardText className="session-amount">$21</CardText>
+                                        <CardText>10 users booked</CardText>
+                                    </div>
+                                }
                             </div>
-                            <Button>{data.golive}</Button>
+                            {userType && userType === trainer_user_type ? 
+                                <Button onClick={()=>{cardRoute(data, index)}}>{data.golive}</Button> :
+                                ''
+                            }
                         </Card>
                     </div>
                 )
@@ -75,15 +89,27 @@ function Notification(props) {
         }
     }
 
-    const getBtns =()=> {
-        if(getNotification.hasOwnProperty('data')) {
+    const cardRoute=(data, index)=> {
+        props.history.push(data.routeTo);
+    }
+
+    const cardRouteUser=(data, index)=> {
+        props.history.push({
+            pathname: data.routeTo,
+            state: data
+        })
+    }
+
+    const getBtns = () => {
+        if (getNotification.hasOwnProperty('data')) {
             let btnList = getNotification.data.btns;
-            let btns = btnList.map((data, index)=> {
-                return(
+            let btns = btnList.map((data, index) => {
+                return (
                     <div key={index} className="session-btns">
-                        <Button color="outline-secondary" className={data.sessionType ? "true-btn": "false-btn"} onClick={()=>routeTo(data, index)}>
+                        {data.flag ?                   
+                        <Button color="outline-secondary" className={data.sessionType ? "true-btn" : "false-btn"} onClick={() => routeTo(data, index)}>
                             {data.title}
-                        </Button>
+                        </Button>: ''}     
                     </div>
                 )
             });
@@ -91,32 +117,33 @@ function Notification(props) {
         }
     }
 
-    const routeTo=(data, index)=> {
-        if(index == 1) {
-            let location = data.routeTo;
-            props.history.push(location);
+    const routeTo = (data, index) => {
+        if (data.sessionType) {
+            dispatch(ListNotification(data.route, userType));
         }
         else {
-            let location = data.route;
-            props.history.push(location);
+            props.history.push(data.route);
         }
     }
 
-    return(
+    return (
         <div className="notifications">
             <Header />
             <div className="container-fluid">
                 <Row>
-                    <Col className="left-container">
-                        <Sidebar />
-                    </Col>
+                    {userType === "user" ?
+                        '' :
+                        <Col className="left-container">
+                            <Sidebar />
+                        </Col>
+                    }
                     <Col sm="9" className="custom-offset">
                         <div className="session-btn-wrapper">
                             {getBtns()}
                         </div>
                         <div className="session-cards-wrapper">
                             {getCards()}
-                        </div>      
+                        </div>
                     </Col>
                 </Row>
             </div>

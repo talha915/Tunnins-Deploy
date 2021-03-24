@@ -31,4 +31,16 @@ export const setting_about = 'SettingsAbout';
 export const setting_privacy = 'SettingsPrivacy';
 export const setting_faqs = 'SettingsFaqs';
 export const setting_update_faqs = 'SettingsUpdateFaqs';
+export const uploaded_file = 'uploadFile';
+export const signed_bank = 'signedUpBank';
+export const account_number = 'accountNumber';
+export const signedup_profile = 'signedupProfile';
+export const user_logged_in = 'userLoggedIn';
+export const notification_route = '/notification';
+export const trainer_user_type = 'trainer';
 
+
+// APIS
+export const categories_list = "categories/list";
+export const create_user = "users";
+export const get_auth = "users/auth";
