@@ -15,13 +15,6 @@ export const ListNotification=(type, userType)=> {
         }
         else {
             cards = data.userCards;
-            console.log("Cards: ", data);
-            let btns = data.btns;
-            for(let i=0; i<btns.length; i++) {
-                if(!btns[i].sessionType) {
-                    btns[i].flag = false;
-                }
-            }
             for(let i=0; i<cards.length; i++) {
                 cards[i].golive = cards[i].past;
             }
@@ -33,22 +26,21 @@ export const ListNotification=(type, userType)=> {
         }
     }
     else {
+        let cards;
         let data = JSON.parse(JSON.stringify(localData.notification));
-        console.log("Type: ", userType);
-        if(userType != trainer_user_type) {
-            let btns = data.btns;
-            console.log("Need to update btn", btns);
-            for(let i=0; i<btns.length; i++) {
-                if(!btns[i].sessionType) {
-                    btns[i].flag = false;
-                }
+        if(userType !== trainer_user_type) {
+            cards = data.userCards;
+            console.log("Users: ", cards);
+            for(let i=0; i<cards.length; i++) {
+                cards[i].golive = cards[i].past;
+                cards[i].status="Booked";
+                cards[i].statusDetail = "Booked";
             }
+            data.cards = data.userCards;
         }
-        console.log("Data: ", data.btns);
         return {
             type: listed_notification,
             payload: data,
         }
     }
 }
-

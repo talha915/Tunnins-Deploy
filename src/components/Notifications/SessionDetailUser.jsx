@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // Action
-import { ListNotification } from '../../actions/notification';
+import { sessionPopup } from '../../actions/sessionDetailUserPop';
 
 // Router
 import { withRouter } from 'react-router-dom';
@@ -15,15 +15,23 @@ import { withRouter } from 'react-router-dom';
 // Styles
 import '../../styles/notifications.scss';
 
+// Constants
+import { cancel_session } from '../../constants/constants';
+
 // Components
 import Header from '../Header/Header';
 import Sliders from './Sliders';
 import CancelledPolicy from '../Session/CancelPolicy';
+import Popup from './Popup';
 
 function SessionDetailUser(props) {
 
     let data = props.location.state;
-    console.log("Data: ", data);
+    const [cancelPop, setCancelPop] = useState(false);
+
+    const dispatch = useDispatch();
+    const [popUpData, setPopupData] = useState({});
+
     
     const getDetails=()=> {
         return(
@@ -68,6 +76,10 @@ function SessionDetailUser(props) {
         props.history.push('/cancellation-policy');
     }
 
+    const cancelSession=()=> {
+        setCancelPop(!cancelPop);
+    }
+
     return (
         <div className="notifications">
             <Header />
@@ -77,16 +89,17 @@ function SessionDetailUser(props) {
                         <Col className="d-flex align-items-center col-sm-3 pl-5">
                             <h6 className="title m-0">
                                 <i className="icon-chevron-left" onClick={()=>props.history.goBack()}></i>
-                                Sessions Details
+                                    Sessions Details
                             </h6>
                         </Col>
-                        {/* <Col className="add-btn-wrapper col-sm-9">
+                        {data.statusDetail === "Booked" ?
+                        <Col className="add-btn-wrapper col-sm-9">
                             <span>
-                            <Button className="addBtn">
-                                Cancel Session
-                            </Button>
+                                <Button className="addBtn" onClick={()=>{cancelSession()}}>
+                                    Cancel Session
+                                </Button>
                             </span>
-                        </Col> */}
+                        </Col>: '' }
                     </Row>
                     <Row>
                         <Col>
@@ -112,6 +125,7 @@ function SessionDetailUser(props) {
                         </Col>
                     </Row>
                     {getDetails()}
+                    {cancelPop ? <Popup modalState={cancelPop} action_type={cancel_session} /> : ''}
                 </div>
             </div>
         </div>

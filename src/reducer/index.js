@@ -28,6 +28,8 @@ import SettingsSidebar from './settingsSidebar';
 import settings from './settings';
 import uploadFile from './uploadFile';
 import postFetch from './postFetch';
+import sessionDetailUserPop from './sessionDetailUserPop';
+import getApi from './getApi';
 
 const rootReducer = combineReducers({
     localData,
@@ -56,7 +58,9 @@ const rootReducer = combineReducers({
     SettingsSidebar,
     settings,
     uploadFile,
-    postFetch
+    postFetch,
+    sessionDetailUserPop,
+    getApi
 })
 
 export default rootReducer;

@@ -188,7 +188,6 @@ h6 {
         border-radius: 0;
     }
 }
- 
 .tunnin-popup {
     width: 90%;
     color: $white;
@@ -225,6 +224,41 @@ h6 {
     }
     .verify-text {
         font-size: 14px;
+    }
+    &.user-popups {
+        .modal-content {
+            padding: 0;
+            padding: 0;
+            width: 32.2vw;
+            margin: 0 auto;
+            background-color: $primary;
+        }
+        .modal-body {
+            padding: 8vh 2.27vw;
+        }
+        .modal-footer {
+            padding: 0;
+        }
+        p {
+            font-size: 1.61vw;
+            opacity: 1;
+            font-weight: 300;
+        }
+        .btn-primary {
+            max-width: inherit !important;
+            width: 50%;
+            margin: 0;
+            &:first-child {
+                border-color: transparent;
+                color: $white;
+                background-color: $primary;
+            }
+            &.ok-btn {
+                background-color: $secondary;
+                width: 100%;
+                color: $black;
+            }
+        }
     }
 }
 .opacity-69 {
@@ -352,5 +386,24 @@ h6 {
                 }
             }
         }
+    }
+}
+.user-logout {
+    padding-right: 20px;
+    position: relative;
+    cursor: pointer;
+
+    i {
+        padding-right: 10px;
+    }
+    &::before {
+        content: " ";
+        position: absolute;
+        top: -17px;
+        bottom: 0;
+        left: -20px;
+        width: 1px;
+        height: 58px;
+        background-color: $white;
     }
 }

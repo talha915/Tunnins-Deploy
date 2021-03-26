@@ -42,6 +42,7 @@ function Notification(props) {
         }
     }
 
+
     useEffect(() => {
         dispatchCheckUser();
         dispatchNotification();
@@ -54,7 +55,6 @@ function Notification(props) {
     const getCards = () => {
         if (getNotification.hasOwnProperty('data')) {
             let lists = getNotification.data.cards;
-            console.log("Cards: ", lists);
             let cards = lists.map((data, index) => {
                 return (
                     <div key={index} className="session-cards">
@@ -67,7 +67,7 @@ function Notification(props) {
                                 </div>
                                 {userType && userType === "user" ? 
                                     <div>
-                                        <CardText>{data.status}</CardText>
+                                        {data.status!=="Booked"?<CardText>{data.status}</CardText>: ''}
                                         <Button onClick={()=>{cardRouteUser(data, index)}}>{data.golive}</Button>
                                     </div>
                                 :
@@ -90,7 +90,9 @@ function Notification(props) {
     }
 
     const cardRoute=(data, index)=> {
-        props.history.push(data.routeTo);
+        if(data.golive === data.past) {
+            props.history.push(data.routeTo);
+        }
     }
 
     const cardRouteUser=(data, index)=> {
@@ -103,6 +105,12 @@ function Notification(props) {
     const getBtns = () => {
         if (getNotification.hasOwnProperty('data')) {
             let btnList = getNotification.data.btns;
+            if(userType !== trainer_user_type) {
+                btnList = JSON.parse(JSON.stringify(getNotification.data.btns));
+                for(let i=0; i<btnList.length; i++) {
+                    btnList[i].flag = btnList[i].sessionType;
+                }
+            }            
             let btns = btnList.map((data, index) => {
                 return (
                     <div key={index} className="session-btns">
