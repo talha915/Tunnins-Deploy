@@ -22,9 +22,12 @@ import '../../styles/notifications.scss';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
+import App from '../Agora/App';
+
 function Notification(props) {
 
     const [userType, setUserType] = useState('');
+    const [callAgora, setAgora] = useState(false);
 
     const dispatch = useDispatch();
     const getNotification = useSelector(state => state.notification);
@@ -93,6 +96,10 @@ function Notification(props) {
         if(data.golive === data.past) {
             props.history.push(data.routeTo);
         }
+        else {
+            //setAgora(true);
+            props.history.push(data.routeToTest);
+        }
     }
 
     const cardRouteUser=(data, index)=> {
@@ -152,6 +159,7 @@ function Notification(props) {
                         <div className="session-cards-wrapper">
                             {getCards()}
                         </div>
+                        {callAgora ? <App/> : ''}
                     </Col>
                 </Row>
             </div>
