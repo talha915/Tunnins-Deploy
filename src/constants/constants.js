@@ -47,3 +47,5 @@ export const create_user = "users/";
 export const get_auth = "users/auth";
 export const user_logout = "users/logout";
 export const agora_key = "session/rtcToken";
+export const create_session = "session/";
+export const upcoming_session = "session/upcoming_session/";
