@@ -242,7 +242,7 @@ function Call(props) {
             let { userType } = userLogged.userLogged;
             console.log("User Logged:", userType);
             if(userType === trainer_user_type) {
-                joinChannel(host_type);
+                joinChannel(audience_type);
             }
             else {
                 joinChannel(host_type)
