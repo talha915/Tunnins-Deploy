@@ -263,9 +263,9 @@ function Call(props) {
         <div>
             {/* <button onClick={() => joinChannel('host')}>Join Channel as Host</button>
             <button onClick={() => joinChannel('audience')}>Join Channel as Audience</button> */}
-            <button onClick={() => leaveEventHost('host')}>Leave Event Host</button>
-            <button onClick={() => leaveEventAudience('audience')}>Leave Event Audience</button>
-            {/* <div id="local_stream" className="local_stream" style={{ width: "400px", height: "400px" }}></div> */}
+            {/* <button onClick={() => leaveEventHost('host')}>Leave Event Host</button>
+            <button onClick={() => leaveEventAudience('audience')}>Leave Event Audience</button> */}
+            <div id="local_stream" className="local_stream" style={{ width: "400px", height: "400px" }}></div>
             <div
                 id="remote_video_"
                 style={{ width: "400px", height: "400px" }}
