@@ -3,9 +3,10 @@ import { url } from '../constants/api_env';
 // axios
 import axios from 'axios';
 
-export const getFetch=(dataType)=> {
+export const getFetchParam=(apiType, param)=> {
     return async (dispatch) => {
-        let res = await axios.get(url+dataType);
+        let res = await axios.get((url+apiType+param));
+        console.log("Res: ", res);
         let data;
         if(res.data.hasOwnProperty('status')) {
             data = res.data.data;
@@ -13,11 +14,9 @@ export const getFetch=(dataType)=> {
         else {
             data = res;
         }
-        //let { data } = res.data;
         console.log("Data: ", data);
-        console.log("Data Type: ", dataType);
         dispatch({
-            type: dataType,
+            type: apiType,
             payload: data,
         });
     }
