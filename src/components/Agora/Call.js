@@ -186,13 +186,6 @@ function Call(props) {
                     }
                     if (role === audience_type) {
 
-                        rtc.localStream = AgoraRTC.createStream({
-                            streamID: rtc.params.uid,
-                            audio: true,
-                            video: true,
-                            screen: false,
-                        })
-
                         rtc.client.on("connection-state-change", function (evt) {
                             console.log("audience", evt)
                         })
@@ -261,15 +254,11 @@ function Call(props) {
 
     return (
         <div>
-            {/* <button onClick={() => joinChannel('host')}>Join Channel as Host</button>
-            <button onClick={() => joinChannel('audience')}>Join Channel as Audience</button> */}
-            {/* <button onClick={() => leaveEventHost('host')}>Leave Event Host</button>
-            <button onClick={() => leaveEventAudience('audience')}>Leave Event Audience</button> */}
             <div id="local_stream" className="local_stream" style={{ width: "400px", height: "400px" }}></div>
-            <div
+            {/* <div
                 id="remote_video_"
                 style={{ width: "400px", height: "400px" }}
-            />
+            /> */}
         </div>
     );
 }

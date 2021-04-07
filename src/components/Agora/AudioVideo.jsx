@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    Button, Row, Col, Card, CardText, CardTitle
+    Button, Row, Col
 } from 'reactstrap';
 
 // Redux
@@ -17,12 +17,15 @@ import Header from '../Header/Header';
 
 import App from '../Agora/App';
 
+// image
+import start_session_img from '../../images/start-session-img.png';
+
 function AudioVideo(props) { 
 
     const [status, setStatus] = useState(false);
 
     const startSession=()=> {
-        setStatus(true);
+        setStatus(!status);
     }
 
     let sessionId = props.location.sessionRes._id;
@@ -37,11 +40,13 @@ function AudioVideo(props) {
                             <i className="icon-chevron-left"></i>
                             Test Audio & Video
                         </p>
+                        {status ? 
                         <App sessionId={sessionId}/>
+                         : <img src={start_session_img} alt={start_session_img} style={{display: "block", margin: "0 auto"}} />}
                         <div className="start-session-btn-wrapper">
                             {status ? 
-                                <Button className="start-session-btn">
-                                    Close Session
+                                <Button className="start-session-btn" onClick={()=>startSession()}>
+                                    End Session
                                 </Button>
                                 :
                                 <Button className="start-session-btn" onClick={()=>startSession()}>
