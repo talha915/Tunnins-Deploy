@@ -271,7 +271,7 @@
                     border-radius: 0;
                     padding: 2.2vh 3.125vw;
                     margin: 0 20px;
-                    min-width: 270px;
+                    min-width: inherit;
                     text-align: center;
                     color: $black;
                     font-size: 18px;
@@ -306,6 +306,18 @@
                         padding: 2.2vh 2.125vw;
                         min-width: inherit;
                     }
+                }
+            }
+            .video-check-wrapper {
+                display: block;
+                margin: 0 auto;
+            }
+            .audio-check-wrapper {
+                margin-bottom: 15px;
+                canvas {
+                    width: 300px !important;
+                    margin: 0 auto;
+                    display: block;
                 }
             }
         }
