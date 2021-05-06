@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AgoraRTC from "agora-rtc-sdk";
+
+import {
+    Button
+} from 'reactstrap';
 
 // Redux
 import { useSelector } from "react-redux";
@@ -48,6 +52,14 @@ function leaveEventAudience(params) {
 
 function Call(props) {
 
+    const [videoStatus, setVideoStatus] = useState(true);
+
+    console.log("Call Props: ", props);
+
+    useEffect(()=>{
+        setVideoStatus(props.videoStatus);
+    }, []);
+
     const agora = useSelector(state => state.getApi);
 
     const userLogged = useSelector(state => state.postFetch);
@@ -75,17 +87,33 @@ function Call(props) {
                     rtc.params.uid = uid;
                     if (role === host_type) {
                         rtc.client.setClientRole(host_type);
+                        
+                        if(props.disableVideo === false) {
+                            AgoraRTC.createStream({
+                                streamID: rtc.params.uid,
+                                audio: true,
+                                video: false,
+                                screen: false,
+                                width: 3840,
+                                height: 2160,
+                                framerate: 60,
+                                bitrate: 6500,
+                            })
+                        }
+
                         // Create a local stream
                         rtc.localStream = AgoraRTC.createStream({
                             streamID: rtc.params.uid,
                             audio: true,
-                            video: true,
+                            video: props.disableVideo,
                             screen: false,
                             width: 3840,
                             height: 2160,
                             framerate: 60,
                             bitrate: 6500,
-                        })
+                        });
+
+                        console.log("rtc.stream: ", rtc.localStream.video);
 
                         //rtc.localStream.setEncoderConfiguration({ width: 1280, height: 720 }).then(() => { /** ... **/ })
 
@@ -173,11 +201,24 @@ function Call(props) {
         checkUserType();
     }
 
+    const disableVideo=()=> {
+        AgoraRTC.createStream({
+            streamID: rtc.params.uid,
+            audio: true,
+            video: false,
+            screen: false,
+            width: 3840,
+            height: 2160,
+            framerate: 60,
+            bitrate: 6500,
+        });
+    }
 
 
     return (
         <div>
             <div id="local_stream" className="local_stream" style={{ width: "1080px", height: "720px" }}></div>
+            
             {/* <div
                 id="remote_video_"
                 style={{ width: "400px", height: "400px" }}

@@ -6,6 +6,11 @@ import {
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 
+// Action
+import { fetchEarning } from '../../actions/earnings';
+import { patchFetch } from '../../actions/patchApi';
+import { getFetchParam } from '../../actions/getFetchParam';
+
 // Router
 import { withRouter } from 'react-router-dom';
 
@@ -20,16 +25,40 @@ import App from '../Agora/App';
 
 // image
 import start_session_img from '../../images/start-session-img.png';
+import { complete_session } from '../../constants/constants';
 
 function AudioVideo(props) {
 
+    const dispatch = useDispatch();
     const [status, setStatus] = useState(false);
+    const [videoStatus, setVideoStatus] = useState(true);
 
-    const startSession = () => {
-        setStatus(!status);
+    const userInfo = useSelector(state => state.postFetch);
+    
+    let userId;
+
+    if (userInfo.hasOwnProperty('userLogged')) {
+        if (userInfo.userLogged) {
+            userId = userInfo.userLogged._id;
+        }
     }
 
     let sessionId = props.location.sessionRes._id;
+
+    const startSession = () => {
+        setStatus(!status);
+        if(status) {
+            completeSession();
+        }
+    }
+
+    const completeSession=()=> {
+        dispatch(getFetchParam(complete_session, sessionId+"/"+userId));
+    }
+
+    const disableSession=()=> {
+        setVideoStatus(false);
+    }
 
     return (
         <div className="notifications">
@@ -42,7 +71,7 @@ function AudioVideo(props) {
                             Test Audio & Video
                         </p>
                         {status ?
-                            <App sessionId={sessionId} />
+                            <App sessionId={sessionId} videoStatus={videoStatus}/>
                             :
                             <div>
                                 <WebcamComponent />
@@ -51,9 +80,12 @@ function AudioVideo(props) {
                         }
                         <div className="start-session-btn-wrapper">
                             {status ?
-                                <Button className="start-session-btn" onClick={() => startSession()}>
-                                    End Session
-                                </Button>
+                                <div>
+                                    <Button className="start-session-btn" onClick={() => startSession()}>
+                                        End Session
+                                    </Button>
+                                    <Button className="start-session-btn" onClick={()=>startSession()}>Disable Video</Button>
+                                </div>
                                 :
                                 <Button className="start-session-btn" onClick={() => startSession()}>
                                     Start Session

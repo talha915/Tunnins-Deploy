@@ -35,6 +35,8 @@ function AddSession(props) {
     let sessionForm = {};
 
     const dispatch = useDispatch();
+    const [uploaded_image, setImage] = useState([]);
+    const [uploadedImageFile, setUploadedFile] = useState([]);
     const [form, setform] = useState({});
     const [editForm, setEditForm] = useState({});
 
@@ -75,12 +77,12 @@ function AddSession(props) {
                     <Col className="d-flex align-items-center col-sm-6">
                         <h6 className="title m-0">
                             <i className="icon-chevron-left" onClick={()=>props.history.goBack()}></i>
-                            {editSession.hasOwnProperty('editSession') ? editSession.editSession.title : newSession.data.title}
+                            {props.history.location.pathname === "/edit-session" ? editSession.editSession.title : newSession.data.title}
                         </h6>
                     </Col>
                     <Col className="add-btn-wrapper col-sm-6">
                         <Button className="addBtn" onClick={()=>dispatchAction()}>
-                            {editSession.hasOwnProperty('editSession') ? editSession.editSession.btnTitle : newSession.data.btnTitle}
+                            {props.history.location.pathname === "/edit-session" ? editSession.editSession.btnTitle : newSession.data.btnTitle}
                         </Button>
                     </Col>
                 </Row>
@@ -102,6 +104,7 @@ function AddSession(props) {
     const dispatchCreateSession=()=> {
         let bodyFormData = new FormData();
         if(userFetch.hasOwnProperty('userLogged')) {
+            console.log("Uploaded Image: ", uploadedImageFile);
             bodyFormData.append("trainerId", userFetch.userLogged._id);
             bodyFormData.append("catId", sessionForm.category);
             bodyFormData.append("title", sessionForm.name_of_class);
@@ -113,7 +116,7 @@ function AddSession(props) {
             bodyFormData.append("userLimit", userFetch.userLogged._id);
             bodyFormData.append("requirements", sessionForm.what_you_need);
             bodyFormData.append("detail", sessionForm.about);
-            bodyFormData.append("images", uploaded_image);
+            bodyFormData.append("images", uploadedImageFile);
             bodyFormData.append("competencylevel", "Beginner");
         }
         console.log("Body Form Data: ", bodyFormData);
@@ -161,6 +164,7 @@ function AddSession(props) {
                                     </span>
                                 }
                             </label>
+                            {/* {uploaded_image && uploaded_image} */}
                             <input hidden id="fileUpload" type="file" onChange={(e)=>uploadedFile(e)} />
                         </Card>
                     </Col>
@@ -170,10 +174,33 @@ function AddSession(props) {
         }
     }
 
-    let uploaded_image;
+    const getUploadedImages=()=> {
+        if(uploaded_image) {
+            let images = uploaded_image.map((data, index)=> {
+                return(
+                    <span key={index} >
+                        {data}
+                    </span>
+                );
+            });
+            return images;
+        }
+    }
+
+    const ImageThumb = ({ image }) => {
+        return <img src={URL.createObjectURL(image)} alt={image.name} />;
+      };
 
     const uploadedFile=(event)=> {
-        uploaded_image = event.target.files[0];
+        let imageFile = event.target.files[0];
+        if(uploadedImageFile < 4) {
+            setUploadedFile(...uploadedImageFile, imageFile);
+        }
+        let image = URL.createObjectURL(imageFile);
+        console.log("Images: ", imageFile);
+        setImage(uploaded_image=>[...uploaded_image, <img src={image} alt={image.name} style={{height: "150px"}}/>]);
+        //uploaded_image = <img src={image} alt={image.name} />;
+        console.log("Uploaded Image: ",(uploaded_image));
     }
 
     const getForm=()=> {
@@ -239,6 +266,7 @@ function AddSession(props) {
                                 <div className="add-session-right-container">
                                     {getSessionTop()}
                                     {getImages()}
+                                    {getUploadedImages()}
                                     <Form className="tunnin-form mt-5">
                                         <Row>
                                             {getForm()}

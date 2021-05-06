@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Row, Col, Label, Input, Button, FormGroup} from 'reactstrap';
+import { Row, Col, Label, Button, FormGroup} from 'reactstrap';
 
 import Checkbox from "react-custom-checkbox";
 
@@ -28,13 +28,15 @@ function SignUp(props) {
 
     // State
     const [formVal, setForm] = useState('');
+    const [viewPass, setViewPass] = useState(false);
+    const [selected, setSelected] = useState('');
 
     useEffect(() => {
         dispatchSignupAction();
     }, [])
 
     const dispatchSignupAction = () => {
-        dispatch(Signup(sign_up));
+        dispatch(Signup(sign_up, null));
     }
 
     const signupState = useSelector(state => state.signup);
@@ -90,20 +92,29 @@ function SignUp(props) {
         dispatch(SignedUp(signed_up, form));
         props.history.push(data.route);    
     }
+
+    const togglePass=(data, index)=> {
+        setSelected(data.field);
+        setViewPass(!viewPass);
+    }
     
     const formDetail = (data) => {
         let formDetails = data.details.map((item, index) => {
             return (
                 <Col xs="12" sm="5" md="5" lg="5" key={index}>
                     <FormGroup className="custom-input-wrapper">
-                        <Label className="formheading"><p>{item.name}</p></Label>                      
-                        <input type={item.type} placeholder={item.placeholder} className="form-control" onChange={(e)=>handleChange(item.field, e.target.value)}/> 
+                        <Label className="formheading"><p>{item.name}</p></Label>
+                        {item.type === "password" ?
+                            <input type={viewPass&&selected===item.field ? "text" : item.type} placeholder={item.placeholder} className="form-control" onChange={(e)=>handleChange(item.field, e.target.value)}/>
+                            :
+                            <input type={item.type} placeholder={item.placeholder} className="form-control" onChange={(e)=>handleChange(item.field, e.target.value)}/>
+                        }                       
                         <span className="input-icons secondary"><i className={item.fieldIcon}></i></span>  
-                        <span className="input-icons password"><i className={item.fieldIconPas}></i></span>  
+                        <span className="input-icons password"><i className={item.fieldIconPas} onClick={()=>togglePass(item, index)}></i></span>  
                     </FormGroup>     
                 </Col>
             )
-        })
+        });
         return formDetails;
     }
 
