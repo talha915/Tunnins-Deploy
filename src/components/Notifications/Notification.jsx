@@ -3,6 +3,8 @@ import {
     Button, Row, Col, Card, CardText, CardTitle
 } from 'reactstrap';
 
+import moment from 'moment';
+
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,6 +43,7 @@ function Notification(props) {
     const [userType, setUserType] = useState('');
     const [callAgora, setAgora] = useState(false);
     const [sessionType, setSessionType] = useState();
+    const [statusLive, setStatusLive] = useState(false);
 
     const dispatch = useDispatch();
     const getNotification = useSelector(state => state.notification);
@@ -102,14 +105,31 @@ function Notification(props) {
         }
         if (lists instanceof Array) {
             let cards = lists.map((data, index) => {
+                let date = new Date(JSON.parse(data.fromDate));
+                let fromDate = (date.getMonth()+1)+"/"+(date.getDate())+"/"+(date.getFullYear());
+                let fromTime = new Date(fromDate+" "+data.fromTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+                let toTime = new Date(fromDate+" "+data.toTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+                let today = new Date();
+                let todayDate = (today.getMonth()+1)+"/"+(today.getDate())+"/"+(today.getFullYear());
+                if(fromDate == todayDate) {
+                    let cTime = new Date();
+                    let currentTime = Date.parse(cTime.getHours())+Date.parse(cTime.getMinutes());
+                    console.log("Current Time: ", currentTime);
+                    let fromHour = JSON.parse(data.fromDate.split(":"));
+                    console.log("From Time: ", fromHour);
+                    let diff = currentTime - fromHour;
+                    if(diff <= 3600000 && diff>=0) {
+                        setStatusLive(true);
+                    }
+                }
                 return (
                     <div key={index} className="session-cards">
                         <Card body className="card-style">
                             <div className="card-content">
                                 <div>
-                                    <CardTitle tag="h5">{data.title}</CardTitle>
-                                    <CardText>{data.fromDate}</CardText>
-                                    <CardText>{data.fromTime} - {data.toTime}</CardText>
+                                    <CardTitle tag="h5">{data.title}</CardTitle>                              
+                                    <CardText>{fromDate}</CardText>
+                                    <CardText>{fromTime} - {toTime}</CardText>
                                 </div>
                                 {userType && userType === "user" ?
                                     <div>
@@ -123,9 +143,12 @@ function Notification(props) {
                                     </div>
                                 }
                             </div>
-                            {userType && userType === trainer_user_type ?
-                                <Button onClick={() => { cardRouteAgora(data) }}>Go Live</Button> :
-                                ''
+                            {((userType && userType === trainer_user_type) && (statusLive && statusLive)) ?
+                                <Button onClick={() => { cardRouteAgora(data) }}>Go Live</Button> 
+                                // ((userType && userType === trainer_user_type) && (!statusLive&&statusLive)) ?
+                                
+                                :
+                                <Button onClick={() => { cardRouteUserDetails(data, index) }}>View Details</Button>
                             }
                         </Card>
                     </div>
@@ -153,6 +176,15 @@ function Notification(props) {
     }
 
     const cardRouteUser = (data, index) => {
+        props.history.push({
+            pathname: data.routeTo,
+            state: data
+        })
+    }
+
+    const cardRouteUserDetails=(data, index)=> {
+        console.log("Working");
+        data.routeTo = "/session-details";
         props.history.push({
             pathname: data.routeTo,
             state: data
