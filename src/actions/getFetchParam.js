@@ -1,6 +1,6 @@
 // Constants
 import { url } from '../constants/api_env';
-import { upcoming_client_sessions, sessionById } from '../constants/constants';
+import { upcoming_client_sessions, sessionById, get_reviews } from '../constants/constants';
 
 // axios
 import axios from 'axios';
@@ -21,6 +21,9 @@ export const getFetchParam = (apiType, param) => {
                 if (apiType === upcoming_client_sessions) {
                     data = res.data.sessions;
                     toast.success(res.data.message, {position: toast.POSITION.BOTTOM_RIGHT});
+                }
+                else if(apiType === get_reviews) {
+                    data = res.data;
                 }
                 else {
                     data = res.data.data;

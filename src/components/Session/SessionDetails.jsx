@@ -71,7 +71,7 @@ function SessionDetail(props) {
     const popup = useSelector(state => state.sessionModal);
 
     const dispactedSessionById = useSelector(state => state.getApi);
-    console.log("Dispatched One: ", dispactedSessionById);
+    console.log("Dispatch Session Id: ", dispactedSessionById);
 
     const getUpper = () => {
         if (sessionDetail.hasOwnProperty('data')) {
