@@ -126,6 +126,7 @@ function SessionDetail(props) {
     }
 
     const getUpperCard = () => {
+        console.log("Session: ", dispactedSessionById);
         if (dispactedSessionById.hasOwnProperty('sessionByIdRes')) {
             let sessionById = dispactedSessionById.sessionByIdRes;
             if (sessionById.hasOwnProperty('data')) {

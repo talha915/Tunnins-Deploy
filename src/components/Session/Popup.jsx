@@ -41,6 +41,7 @@ function Popup(props) {
             dispatch(sessionModal(close_modal));
             if(props.action_type == add_session_modal) {
                 let routeTo = item.route;
+                console.log("Route TPO: ", routeTo);
                 props.history.push(routeTo);
             }
         }
