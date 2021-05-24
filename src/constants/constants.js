@@ -70,3 +70,4 @@ export const stripe_account = "payments/get_stripe/";
 export const sessionById = 'session/';
 export const get_booked_users = 'session/get_booked_users/';
 export const get_reviews = 'trainers/getReviews_ratings/';
+export const cancel_session_api = "session/cancel_session/";
