@@ -50,6 +50,9 @@ export default function(state=initialState, actions) {
                 if (pageData[i].title === "About Us") {
                     parsedPage.about = pageData[i];
                 }
+                if(pageData[i].title === "Cancellation Policy") {
+                    parsedPage.cancelPolicy = pageData[i];
+                }
             }
             return {
                 ...state,
