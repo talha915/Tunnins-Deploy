@@ -46,6 +46,7 @@ export const audience_type = 'audience';
 export const past = 'past';
 export const upcoming = 'upcoming';
 export const toggle_pass = 'toggle_pass';
+export const toggle_faq = 'toggle_faq';
 
 export const agora_app_id = '1c3aa8a838d14cd99bd626ab94291542';
 
@@ -75,3 +76,4 @@ export const user_contact_support = "contacts";
 export const payments_api = "payments/get_payout/";
 export const total_earnings = "earnings/total_earnings/";
 export const earning_details = "earnings/earning_details/";
+export const all_faqs = "faqs/allFaqs/trainer";

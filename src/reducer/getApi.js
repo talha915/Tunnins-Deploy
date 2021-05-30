@@ -1,5 +1,5 @@
 // Constants
-import { user_logout, upcoming_session, upcoming_client_sessions, past_sessions, agora_key, get_profile, pages, sessionById, get_booked_users, get_reviews, payments_api } from '../constants/constants';
+import { user_logout, upcoming_session, upcoming_client_sessions, past_sessions, agora_key, get_profile, pages, sessionById, get_booked_users, get_reviews, payments_api, all_faqs, toggle_faq } from '../constants/constants';
 
 const initialState = {
 
@@ -77,7 +77,21 @@ export default function(state=initialState, actions) {
             return {
                 ...state,
                 payouts: actions.payload
-            }                
+            }
+        case all_faqs:
+            let faqs = JSON.parse(JSON.stringify(actions.payload));
+            for(let i=0; i<faqs.length; i++) {
+                faqs[i].flag = false;
+            }
+            return {
+                ...state,
+                allFaqs: faqs
+            }   
+        case toggle_faq:
+            return {
+                ...state, 
+                allFaqs: actions.payload
+            }                     
         default:
             return state;    
     }
