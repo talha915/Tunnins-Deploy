@@ -81,3 +81,4 @@ export const all_faqs = "faqs/allFaqs/trainer";
 export const bank_details_api = "bank/";
 export const update_created_session_api = "session/update_session/";
 export const user_profile_pic = "users/upload_profilePic/";
+export const delete_profile_pic = "users/remove_ProfilePic/";

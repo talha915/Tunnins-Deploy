@@ -17,7 +17,7 @@ import { getFetch } from '../../actions/getFetch';
 import { withRouter } from 'react-router-dom';
 
 // Constants
-import { add_session, add_session_modal, categories_list, create_session, update_created_session_api, user_profile_pic } from '../../constants/constants';
+import { add_session, add_session_modal, categories_list, create_session, update_created_session_api, user_profile_pic, delete_profile_pic } from '../../constants/constants';
 
 // Styles
 import '../../styles/newsession.scss';
@@ -34,6 +34,7 @@ import Popup from './Popup';
 function AddSession(props) {
 
     let sessionForm = {};
+    let imageLengthSession = 0;
 
     const dispatch = useDispatch();
     const [uploaded_image, setImage] = useState([]);
@@ -58,8 +59,18 @@ function AddSession(props) {
         dispatchNewSession();
         dispatchEditSession();
         dispatchCategories();
+        dispatchSetEditedImages();
     }, []);
 
+
+    const dispatchSetEditedImages=()=> {
+        if(props.location.hasOwnProperty('sessionDetailedId')) {
+            let sessionId = props.location.sessionDetailedId;
+            if(sessionId.hasOwnProperty('images')) {
+                setUploadedFile(sessionId.images);
+            }
+        }
+    }
 
     const dispatchNewSession = () => {
         dispatch(addSession(add_session));
@@ -172,58 +183,66 @@ function AddSession(props) {
         }
     }
 
+    const deleteImage=(data, index)=> {
+        console.log("Data: ", data);
+        console.log("Index: ", index);
+        console.log("Image: ", uploadedImageFile);
+        if(userFetch.hasOwnProperty('userLogged')) {
+            let trainer_id = userFetch.userLogged._id;
+            let delete_image = uploadedImageFile.splice(index, 1);
+            dispatch(postFetchParams(delete_profile_pic, trainer_id, ''));
+            setUploadedFile(delete_image);
+        }
+    }
+
     const getuploads=()=> {
-        if (newSession.hasOwnProperty('data')) {
-            if(props.location.hasOwnProperty('sessionDetailedId')) {
-                let detailData = props.location.sessionDetailedId;
-                if(detailData.hasOwnProperty('images')) {
-                    let editImage = detailData.images;
-                    let cardList = editImage.map((data, index)=> {
-                        return(
-                            <Col sm="3" key={index}>
-                                <Card className="uploads">
-                                    <label htmlFor="fileUpload">
-                                        <img src={"uploads/"+data} height="150" width="150" />
-                                        <span className="delete-img-wrapper">
+        console.log("Props.location: ", props.location);
+        if (newSession.hasOwnProperty('data')) {         
+            let cards = newSession.data.cardList;
+            let cardList = cards.map((data, index)=> {
+                return(
+                    <Col sm="3" key={index}>
+                        <Card className="uploads">
+                            <label htmlFor="fileUpload">
+                                <div className="d-none upload-icon-wrapper">
+                                    {data.icon}
+                                </div>
+                                {props.history.location.pathname === "/add-new-session"
+                                    ?
+                                    <i className="icon-cloud"></i>
+                                    :
+                                    <div>
+                                        {props.location.sessionDetailedId ? getUploadedSessionImage(props.location.sessionDetailedId) : ''}
+                                        <span className="delete-img-wrapper" onClick={()=>{deleteImage(data, index)}}>
                                             <i className="icon-delete"></i>
                                         </span>
-                                       
-                                    </label>
-                                    {/* {uploaded_image && uploaded_image} */}
-                                    <input hidden id="fileUpload" type="file" onChange={(e)=>uploadedFile(e)} />
-                                </Card>
-                            </Col>
-                        );
-                    });
-                    return cardList;
-                }
-            }
-            else {
-                let cards = newSession.data.cardList;
-                let cardList = cards.map((data, index)=> {
-                    return(
-                        <Col sm="3" key={index}>
-                            <Card className="uploads">
-                                <label htmlFor="fileUpload">
-                                    <div className="d-none upload-icon-wrapper">
-                                        {data.icon}
                                     </div>
-                                    {props.history.location.pathname === "/add-new-session"
-                                        ?
-                                        <i className="icon-cloud"></i>
-                                        :
-                                        <span className="delete-img-wrapper">
-                                            <i className="icon-delete"></i>
-                                        </span>
-                                    }
-                                </label>
-                                {/* {uploaded_image && uploaded_image} */}
-                                <input hidden id="fileUpload" type="file" onChange={(e)=>uploadedFile(e)} />
-                            </Card>
-                        </Col>
+                                }
+                            </label>
+                            {/* {uploaded_image && uploaded_image} */}
+                            <input hidden id="fileUpload" type="file" onChange={(e)=>uploadedFile(e)} />
+                        </Card>
+                    </Col>
+                );
+            });
+            return cardList;
+        }
+    }
+
+    
+
+    const getUploadedSessionImage=(data)=> {
+        if(data.hasOwnProperty('images')) {
+            let length = data.images.length;
+            console.log("Length: ", length);
+            if(imageLengthSession < length) {
+                let image = data.images.map((item, index)=> {
+                    imageLengthSession = imageLengthSession+1;
+                    return(
+                        <img src={"uploads/"+item} height="120" width="120" key={index} />
                     );
                 });
-                return cardList;
+                return image;
             }
         }
     }
