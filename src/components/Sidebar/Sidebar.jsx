@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Action
 import { ListNotification } from '../../actions/notification';
+import { getSideBarList } from '../../actions/sidebarList';
 
 // Router
 import { withRouter } from 'react-router-dom';
 
 // Constants
-import { listed_notification } from '../../constants/constants';
+import { listed_notification, get_sidebar_list } from '../../constants/constants';
 
 // Styles
 import '../../styles/notifications.scss';
@@ -38,17 +39,33 @@ function Sidebar(props) {
         }
     }
 
+
+
     const routeTo=(location, data)=> {
-        let lists = getNotification.data.sideList;
-        for(let i=0; i<lists.length; i++) {
-            console.log("List: ", lists[i]);
-            lists[i].active = false;
-            console.log("Data: ", data);
-            if(lists[i].name === data.name) {
-                lists[i].active = true;
-            }
-        }
         props.history.push(location);
+    }
+
+
+    if(getNotification.hasOwnProperty('data')) {
+        let lists = getNotification.data.sideList;
+        if(props.location.pathname === "/my-earnings") {
+            lists[1].active = true;
+        } 
+        else
+        if(props.location.pathname === "/notification" || props.location.pathname.includes("session")) {
+            lists[0].active = true;
+        }
+        else 
+        if(props.location.pathname === "/payouts") {
+            lists[2].active = true;
+        } 
+        else
+        if(props.location.pathname === "/ratings") {
+            lists[3].active = true;
+        }
+        else {
+            lists[4].active = true;
+        }
     }
 
     const getSidebar=()=> {

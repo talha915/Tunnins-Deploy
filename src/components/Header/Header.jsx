@@ -79,6 +79,14 @@ function Header(props) {
         }
     }
 
+    const getUserImage=()=> {
+        if(userLoggedDetails) {      
+            return(
+                <img src={"uploads"+userLoggedDetails.profilePic} alt="user-dp" width="20" height="20"/>
+            )       
+        }
+    }
+
     const getDropDownItems=()=> {
         if(getHead.hasOwnProperty('data')) {
             let drops = getHead.data.dropdown.map((data, index)=> {
@@ -95,7 +103,6 @@ function Header(props) {
 
     const routeTo=(location)=> {
         props.history.push(location);
-        console.log("Loc: ", location);
     }
 
     const logout=()=> {
@@ -124,7 +131,8 @@ function Header(props) {
                     <DropdownToggle>
                         <div className="user-profile">
                             <span className="dp-wrapper">
-                                <img src={dp} alt="user-dp" />
+                                {getUserImage()}
+                                
                             </span>
                             <span className="credentials">
                                 {getCredentials()}
