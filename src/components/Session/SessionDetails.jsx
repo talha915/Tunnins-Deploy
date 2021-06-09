@@ -144,59 +144,61 @@ function SessionDetail(props) {
         console.log("Session: ", dispactedSessionById);
         if (dispactedSessionById.hasOwnProperty('sessionByIdRes')) {
             let sessionById = dispactedSessionById.sessionByIdRes;
-            if (sessionById.hasOwnProperty('data')) {
-                let res = sessionById.data;
-                console.log("Final Res: ", res);
-                // let date = new Date(JSON.parse(res.Session.fromDate));
-                // let fromDate = (date.getMonth() + 1) + "/" + (date.getDate()) + "/" + (date.getFullYear());
-                // let fromTime = new Date(fromDate + " " + res.Session.fromTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
-                // let toTime = new Date(fromDate + " " + res.Session.toTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
-                
-                let fromDate = moment(res.Session.fromDate, "x").format("DD MMMM, YYYY");
-                let fromTime = moment(res.Session.fromTime,'HHmmss').format("hh:mm A");
-                let toTime = moment(res.Session.toTime,'HHmmss').format("hh:mm A");
-                
-                
-                return (
-                    <div>
-                        <div className="top-borderless-card">
-                            <Row>
-                                <Col sm="6">
-                                    <Card body className="card-style session-info-card">
-                                        <div className="card-content">
-                                            <div>
-                                                <CardTitle tag="h5">{res.TrainerName}</CardTitle>
-                                                <CardText>{fromDate}</CardText>
-                                                <CardText>{fromTime}-{toTime}</CardText>
-                                            </div>
-                                            <div>
-                                                <CardText className="session-amount">{props.history.location.pathname === "/session-details-past" ? "Earned $" + res.Session.price : "$" + res.Session.price}</CardText>
-                                                {dispactedSessionById.hasOwnProperty('bookedUsers') ?
-                                                    <CardText>{dispactedSessionById.bookedUsers.TotalBooked} Users Booked</CardText>
-                                                    : ''}
-                                            </div>
-                                        </div>
-                                    </Card>
-                                </Col>
-                                {props.history.location.pathname === "/session-details" ?
-                                    <Col sm="6" className="d-flex justify-content-end align-items-end">
-                                        <p className="cancel-policy-text" onClick={() => cancelPolicy(sessionDetail.data.cancelroute)}>
-                                            {sessionDetail.data.cancellationPolicy}
-                                        </p>
-                                    </Col>
-                                    :
-                                    ''}
-                            </Row>
-                        </div>
+            if(typeof sessionById === 'object') {
+                if (sessionById.hasOwnProperty('data')) {
+                    let res = sessionById.data;
+                    console.log("Final Res: ", res);
+                    // let date = new Date(JSON.parse(res.Session.fromDate));
+                    // let fromDate = (date.getMonth() + 1) + "/" + (date.getDate()) + "/" + (date.getFullYear());
+                    // let fromTime = new Date(fromDate + " " + res.Session.fromTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+                    // let toTime = new Date(fromDate + " " + res.Session.toTime).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+                    
+                    let fromDate = moment(res.Session.fromDate, "x").format("DD MMMM, YYYY");
+                    let fromTime = moment(res.Session.fromTime,'HHmmss').format("hh:mm A");
+                    let toTime = moment(res.Session.toTime,'HHmmss').format("hh:mm A");
+                    
+                    
+                    return (
                         <div>
-                            <Row>
-                                <Col sm="12">
-                                    <h5 className="users-booked-title">{sessionDetail.data.usersViewed}</h5>
-                                </Col>
-                            </Row>
+                            <div className="top-borderless-card">
+                                <Row>
+                                    <Col sm="6">
+                                        <Card body className="card-style session-info-card">
+                                            <div className="card-content">
+                                                <div>
+                                                    <CardTitle tag="h5">{res.TrainerName}</CardTitle>
+                                                    <CardText>{fromDate}</CardText>
+                                                    <CardText>{fromTime}-{toTime}</CardText>
+                                                </div>
+                                                <div>
+                                                    <CardText className="session-amount">{props.history.location.pathname === "/session-details-past" ? "Earned $" + res.Session.price : "$" + res.Session.price}</CardText>
+                                                    {dispactedSessionById.hasOwnProperty('bookedUsers') ?
+                                                        <CardText>{dispactedSessionById.bookedUsers.TotalBooked} Users Booked</CardText>
+                                                        : ''}
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </Col>
+                                    {props.history.location.pathname === "/session-details" ?
+                                        <Col sm="6" className="d-flex justify-content-end align-items-end">
+                                            <p className="cancel-policy-text" onClick={() => cancelPolicy(sessionDetail.data.cancelroute)}>
+                                                {sessionDetail.data.cancellationPolicy}
+                                            </p>
+                                        </Col>
+                                        :
+                                        ''}
+                                </Row>
+                            </div>
+                            <div>
+                                <Row>
+                                    <Col sm="12">
+                                        <h5 className="users-booked-title">{sessionDetail.data.usersViewed}</h5>
+                                    </Col>
+                                </Row>
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                }
             }
         }
     }
