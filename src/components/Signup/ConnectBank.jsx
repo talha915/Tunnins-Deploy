@@ -41,16 +41,16 @@ function ConnectBank(props) {
     const routeTo=(location)=> {
         dispatchStripe();
         console.log("All States", allStates);
-        let bodyFormData = new FormData();
-        bodyFormData.append("fullName", allStates.signedup.f_name);
-        bodyFormData.append("username", allStates.signupProfile.signedUpProfile.username);
-        bodyFormData.append("email", allStates.signedup.email);
-        bodyFormData.append("password", allStates.signedup.c_pass);
-        bodyFormData.append("userType", "trainer");
-        bodyFormData.append("dob", allStates.signedup.dob);
-        bodyFormData.append("trainer_Cat", allStates.signupProfile.signedUpProfile.trainer_cat);
-        bodyFormData.append("about", allStates.signupProfile.signedUpProfile.about);
-        dispatch(postFetch(create_user, bodyFormData));
+        // let bodyFormData = new FormData();
+        // bodyFormData.append("fullName", allStates.signedup.f_name);
+        // bodyFormData.append("username", allStates.signupProfile.signedUpProfile.username);
+        // bodyFormData.append("email", allStates.signedup.email);
+        // bodyFormData.append("password", allStates.signedup.c_pass);
+        // bodyFormData.append("userType", "trainer");
+        // bodyFormData.append("dob", allStates.signedup.dob);
+        // bodyFormData.append("trainer_Cat", allStates.signupProfile.signedUpProfile.trainer_cat);
+        // bodyFormData.append("about", allStates.signupProfile.signedUpProfile.about);
+        // dispatch(postFetch(create_user, bodyFormData));
     }
 
     const dispatchStripe=()=> {
@@ -76,10 +76,10 @@ function ConnectBank(props) {
         props.history.push(notification_route);
     }
 
-    if (allStates.postFetch.hasOwnProperty('userCreatedStatus')) {
-        let userCheck = allStates.postFetch.userCreatedStatus;
+    if (allStates.postFetch.hasOwnProperty('regStep1Status')) {
+        let userCheck = allStates.postFetch;
         console.log("UserCheck", userCheck);
-        if (userCheck === fine_res) {
+        if (userCheck.regStep1Status === fine_res && userCheck.regStep2Status === fine_res) {
             loginUser();
         }
         else {
