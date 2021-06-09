@@ -1,5 +1,5 @@
 // Constants
-import { get_auth, create_user, create_session, cancel_session_api, user_contact_support, update_created_session_api, user_profile_pic } from '../constants/constants';
+import { get_auth, create_user, create_session, cancel_session_api, user_contact_support, update_created_session_api, user_profile_pic, reg_step_1, reg_step_2 } from '../constants/constants';
 
 const initialState = {
     
@@ -48,7 +48,19 @@ export default function(state=initialState, actions) {
                 ...state,
                 userProfilePayload: actions.payload,
                 userProfileStatus: actions.status
-            }             
+            }
+        case reg_step_1:
+            return {
+                ...state,
+                regStep1: actions.payload,
+                regStep1Status: actions.status 
+            }
+        case reg_step_2:
+            return {
+                ...state,
+                regStep2: actions.payload,
+                regStep2Status: actions.status 
+            }                   
         default:
             return state;    
     }

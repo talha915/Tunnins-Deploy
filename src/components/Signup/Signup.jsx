@@ -7,11 +7,12 @@ import Checkbox from "react-custom-checkbox";
 import logo from '../../images/tunnin-logo.png';
 
 // Constants
-import { sign_up, signed_up } from '../../constants/constants';
+import { sign_up, signed_up, reg_step_1 } from '../../constants/constants';
 
 // Actions
 import { Signup } from '../../actions/Signup';
 import { SignedUp } from '../../actions/signedUp';
+import { postFetch } from '../../actions/postFetch';
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +22,7 @@ import { withRouter } from 'react-router-dom';
 
 // Styles
 import '../../styles/signup.scss'
+import { fine_res } from '../../constants/api_env';
 
 function SignUp(props) {
 
@@ -30,6 +32,8 @@ function SignUp(props) {
     const [formVal, setForm] = useState('');
     const [viewPass, setViewPass] = useState(false);
     const [selected, setSelected] = useState('');
+    const [routeLoc, setRouteLoc] = useState('');
+    let checkValue = false;
 
     useEffect(() => {
         dispatchSignupAction();
@@ -40,7 +44,7 @@ function SignUp(props) {
     }
 
     const signupState = useSelector(state => state.signup);
-
+    const postApi = useSelector(state => state.postFetch);
 
     const getSignUp = () => {
         if (signupState.hasOwnProperty('data')) {
@@ -59,8 +63,7 @@ function SignUp(props) {
                             <FormGroup className="subscription-checkbox-wrapper ">
                                 <Checkbox
                                     name="subscription-checkbox"
-                                    checked={false}
-                                    onChange={(e)=>handleChange('subscribe', e.target.checked)}
+                                    onChange={()=>handleChange('subscribe', '')}
                                     borderColor="#fff"
                                     borderWidth={3}
                                     borderRadius={3}
@@ -84,13 +87,43 @@ function SignUp(props) {
     let form = {};
     
     const handleChange=(key, data)=> {
-        form[key] = data;
+        if(key === "subscribe") {
+            checkValue = !checkValue;
+            if(checkValue) {
+                checkValue = 1;
+            }
+            else {
+                checkValue = 0;
+            }
+            form[key] = checkValue;
+        }
+        else {
+            form[key] = data;
+            form['subscribe'] = 0;
+        }
     }
 
     const formValue=(data)=> {
         setForm(form);
         dispatch(SignedUp(signed_up, form));
-        props.history.push(data.route);    
+        let form_params = {
+            "fullName" : form["f_name"],
+            "email" : form["email"],
+            "password" : form["pass"],
+            "dob" : form["dob"],
+            "newsletter" : form["subscribe"]
+        }
+        dispatch(postFetch(reg_step_1, form_params));
+        setRouteLoc(data.route);
+        //props.history.push(data.route);   
+    }
+
+    console.log("SignUp:", postApi);
+    if(postApi.hasOwnProperty('regStep1Status')) {
+        let resStatus = postApi.regStep1Status;
+        if(resStatus === fine_res) {
+            props.history.push(routeLoc);
+        }
     }
 
     const togglePass=(data, index)=> {

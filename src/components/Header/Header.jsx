@@ -82,7 +82,7 @@ function Header(props) {
     const getUserImage=()=> {
         if(userLoggedDetails) {      
             return(
-                <img src={"uploads"+userLoggedDetails.profilePic} alt="user-dp" width="20" height="20"/>
+                <img src={"uploads"+userLoggedDetails.profilePic} alt="user-dp" width="55" height="55"/>
             )       
         }
     }

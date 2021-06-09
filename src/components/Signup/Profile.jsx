@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Row, Col, Label, Input, Button, FormGroup } from 'reactstrap';
 
@@ -6,7 +6,7 @@ import Checkbox from "react-custom-checkbox";
 
 import logo from '../../images/tunnin-logo.png';
 // Constants
-import { signup_profile, categories_list, signedup_profile } from '../../constants/constants';
+import { signup_profile, categories_list, signedup_profile, reg_step_2 } from '../../constants/constants';
 
 // Style
 import '../../styles/signupprofile.scss';
@@ -17,11 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 // Action
 import { signUpProfile } from '../../actions/signupProfile';
 import { getFetch } from '../../actions/getFetch';
+import { postFetch } from '../../actions/postFetch';
 
 // Router
 import { withRouter } from 'react-router-dom';
+import { fine_res } from '../../constants/api_env';
 
 function Profile(props) {
+
+
+    const [routeLoc, setRouteLoc] = useState('');
 
     useEffect(() => {
         dispatchSignUpProfile();
@@ -39,6 +44,7 @@ function Profile(props) {
     const dispatch = useDispatch();
     const profile = useSelector(state => state.signupProfile);
     const categories = useSelector(state => state.signupCategories);
+    const postApi = useSelector(state => state.postFetch);
 
     const getProfile = () => {
         if (profile.hasOwnProperty('data')) {
@@ -74,8 +80,40 @@ function Profile(props) {
 
     const routeTo = (data) => {
         dispatch(signUpProfile(signedup_profile, form));
-        props.history.push(data);
+        if(postApi.hasOwnProperty("regStep1")) {
+            let regStep1 = postApi.regStep1;
+            console.log(":RegStep1:", regStep1);
+            if(regStep1.hasOwnProperty("data")) {
+                let regStep1Data = regStep1.data;
+                if(regStep1Data.hasOwnProperty("id")) {
+                    let trainerId = regStep1Data.id;
+                    let userForm = {
+                        "trainerId" : trainerId,
+                        "username" : form["username"],
+                        "about" : form["about"],
+                        "location" : form["location"],
+                        "mobile" : form["phone_num"],
+                        "trainer_Cat" : form["trainer_cat"],
+                        "insta" : form["insta_url"],
+                        "business" : form["business_name"]
+                    }
+                    dispatch(postFetch(reg_step_2, userForm));
+                    console.log("TrainerId: ", trainerId);
+                    console.log("Form: ", userForm);
+                }
+            }
+        }
+        setRouteLoc(data);
+        //props.history.push(data);
     }
+
+    if(postApi.hasOwnProperty("regStep2Status")) {
+        let resStatus = postApi.regStep2Status;
+        if(resStatus === fine_res) {
+            props.history.push(routeLoc);
+        }
+    }
+
 
     const formChecks = (categories) => {
         if (categories.hasOwnProperty('data')) {

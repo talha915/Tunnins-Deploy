@@ -1,6 +1,6 @@
 // Constants
 import { url, fine_res } from '../constants/api_env';
-import { user_logged_in, delete_profile_pic } from '../constants/constants';
+import { user_logged_in, delete_profile_pic, reg_step_1, reg_step_2 } from '../constants/constants';
 // axios
 import axios from 'axios';
 
@@ -17,7 +17,13 @@ export const postFetch = (dataType, params) => {
             let res = await axios.post((url+dataType), params);
             console.log("Res: ", res);
             if (res.status === fine_res) {
-                let { data } = res.data;
+                let data;
+                if(dataType === reg_step_1 || dataType === reg_step_2) {
+                    data = res;
+                }
+                else {
+                    data = res.data.data;
+                }
                 toast.success('Success', {position: toast.POSITION.BOTTOM_RIGHT});
                 dispatch({
                     type: dataType,

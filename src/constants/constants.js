@@ -83,3 +83,5 @@ export const bank_details_api = "bank/";
 export const update_created_session_api = "session/update_session/";
 export const user_profile_pic = "users/upload_profilePic/";
 export const delete_profile_pic = "users/remove_ProfilePic/";
+export const reg_step_1 = "users/1stStep";
+export const reg_step_2 = "users/2ndStep";
